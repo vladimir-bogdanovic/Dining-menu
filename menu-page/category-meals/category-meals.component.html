@@ -1,0 +1,19 @@
+<div class="main-wraper">
+  <div class="grid-wraper">
+    <div class="grid-choices">
+      <ul *ngFor="let categoryMeal of categoryMeals; let i = index">
+        <li (click)="checkMealDetails(categoryMeal.idMeal)">
+          <div class="meal-id">{{ i + 1 + "." }}</div>
+          {{ categoryMeal.strMeal }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="meal-div">
+    <div class="meal-name">Roast chicken dinner for one</div>
+    <div class="meal-image">
+      <img src="../../../assets/roast_chicken_for_one_41998_16x9.jpg" alt="" />
+    </div>
+    <div class="meal-ingredients">300g/10½oz potatoes</div>
+  </div>
+</div>
