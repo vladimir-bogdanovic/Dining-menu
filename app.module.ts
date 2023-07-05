@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MenuPageComponent } from './menu-page/menu-page.component';
 import { CategoryMealsComponent } from './menu-page/category-meals/category-meals.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CategoryMealsComponent } from './menu-page/category-meals/category-meal
     FormsModule,
     HttpClientModule,
     RouterModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,21 +1,77 @@
 <div class="main-wraper">
+  <!-- GRID START -->
   <div class="grid-wraper">
     <div class="grid-choices">
-      <ul *ngFor="let categoryMeal of categoryMeals; let i = index">
-        <li (click)="checkMealDetails(categoryMeal.idMeal)">
+      <ul
+        *ngFor="
+          let categoryMeal of categoryMeals
+            | slice
+              : (defaultPage - 1) * itemsPerPage
+              : defaultPage * itemsPerPage;
+          let i = index
+        "
+      >
+        <li (click)="getMealDetails(categoryMeal.idMeal)">
           <div class="meal-id">{{ i + 1 + "." }}</div>
           {{ categoryMeal.strMeal }}
         </li>
       </ul>
+      <!-- PAGINATION START -->
+      <div class="pag-div">
+        <ngb-pagination
+          [collectionSize]="numberOfMeals"
+          [(page)]="defaultPage"
+          [directionLinks]="false"
+        ></ngb-pagination>
+      </div>
+      <!-- PAGINATION END -->
     </div>
   </div>
-  <div class="meal-div">
-    <div class="meal-name">Roast chicken dinner for one</div>
-    <div class="meal-image">
-      <img src="../../../assets/roast_chicken_for_one_41998_16x9.jpg" alt="" />
+  <!-- GRID END -->
+
+  <!-- MEAL DETAILS START -->
+  <!-- RANDOM MEALSTART -->
+  <div *ngIf="!mealSelected" class="random-meal-div">
+    <div class="meal-name">
+      <span>{{ randomMealName }} - {{ randomMealCategory }}</span>
     </div>
-    <div class="meal-ingredients">300g/10½oz potatoes</div>
+    <div class="meal-image">
+      <img src="{{ randomMealThumb }}" alt="" />
+    </div>
+    <div class="meal-ingredients">
+      <ul>
+        <li>{{ ingredient1 }}</li>
+        <li>{{ ingredient2 }}</li>
+        <li>{{ ingredient3 }}</li>
+        <li>{{ ingredient4 }}</li>
+        <li>{{ ingredient5 }}</li>
+        <li>{{ ingredient6 }}</li>
+        <li>{{ ingredient7 }}</li>
+        <li>{{ ingredient8 }}</li>
+        <li>{{ ingredient9 }}</li>
+      </ul>
+    </div>
+  </div>
+  <!-- RANDOM MEAL END -->
+  <div *ngIf="mealSelected" class="random-meal-div">
+    <div class="meal-name">
+      <span>{{ mealDetail.strMeal }}</span>
+    </div>
+    <div class="meal-image">
+      <img src="{{ mealDetail.strMealThumb }}" alt="" />
+    </div>
+    <div class="meal-ingredients">
+      <ul>
+        <li>{{ mealDetail.strIngredient1 }}</li>
+        <li>{{ mealDetail.strIngredient2 }}</li>
+        <li>{{ mealDetail.strIngredient3 }}</li>
+        <li>{{ mealDetail.strIngredient4 }}</li>
+        <li>{{ mealDetail.strIngredient5 }}</li>
+        <li>{{ mealDetail.strIngredient6 }}</li>
+        <li>{{ mealDetail.strIngredient7 }}</li>
+        <li>{{ mealDetail.strIngredient8 }}</li>
+        <li>{{ mealDetail.strIngredient9 }}</li>
+      </ul>
+    </div>
   </div>
 </div>
-
-<p>provera nove grane</p>
