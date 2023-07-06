@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Params } from "@angular/router";
 import { CallingService } from "src/app/services/calling.service";
 import {
@@ -39,8 +40,12 @@ export class CategoryMealsComponent implements OnInit {
   ingredient5!: string;
   ingredient6!: string;
   ingredient7!: string;
-  ingredient8!: string;
-  ingredient9!: string;
+  ingredient8?: string;
+  ingredient9?: string;
+
+  isEditing: boolean = false;
+  editButtonClicked: boolean = false;
+  editMealForm!: FormGroup;
 
   constructor(
     private callingService: CallingService,
@@ -51,14 +56,12 @@ export class CategoryMealsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.param = params.food;
     });
-
     this.callingService
       .getCategoryMeals(this.param)
       .subscribe((resData: CategoryMealsInterface) => {
         this.categoryMeals = resData.meals;
         this.numberOfMeals = this.categoryMeals.length;
       });
-
     this.callingService
       .getRandomMeal()
       .subscribe((resData: RandomMealInterface) => {
@@ -75,7 +78,6 @@ export class CategoryMealsComponent implements OnInit {
         this.ingredient7 = resData.meals[0].strIngredient7;
         this.ingredient8 = resData.meals[0].strIngredient8;
         this.ingredient9 = resData.meals[0].strIngredient9;
-        //console.log(resData);
       });
   }
 
@@ -84,8 +86,35 @@ export class CategoryMealsComponent implements OnInit {
     this.callingService
       .getMealDetails(id)
       .subscribe((resData: mealsDetailsInterface) => {
-        console.log(resData);
         this.mealDetail = resData.meals[0];
       });
+  }
+
+  editMeal(meal: SingleMealDetailsInterface) {
+    this.isEditing = true;
+    this.editButtonClicked = true;
+    this.editMealForm = new FormGroup({
+      id: new FormControl(meal.idMeal),
+      strMeal: new FormControl(meal.strMeal),
+      strIngredient1: new FormControl(meal.strIngredient1),
+      strIngredient2: new FormControl(meal.strIngredient2),
+      strIngredient3: new FormControl(meal.strIngredient3),
+      strIngredient4: new FormControl(meal.strIngredient4),
+      strIngredient5: new FormControl(meal.strIngredient5),
+      strIngredient6: new FormControl(meal.strIngredient6),
+      strIngredient7: new FormControl(meal.strIngredient7),
+      strIngredient8: new FormControl(meal.strIngredient8),
+      strIngredient9: new FormControl(meal.strIngredient9),
+    });
+  }
+  save() {
+    this.mealDetail.strMeal = this.editMealForm.value.strMeal;
+    this.editButtonClicked = false;
+    this.isEditing = false;
+    //  alert("meal changed");
+  }
+  cancel() {
+    this.isEditing = false;
+    this.editButtonClicked = false;
   }
 }

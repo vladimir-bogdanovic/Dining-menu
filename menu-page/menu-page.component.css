@@ -37,6 +37,10 @@
   margin-bottom: 60px;
 }
 
+ul {
+  padding: 0px;
+}
+
 li {
   padding: 20px;
   color: aliceblue;
