@@ -40,8 +40,8 @@ export class CategoryMealsComponent implements OnInit {
   ingredient5!: string;
   ingredient6!: string;
   ingredient7!: string;
-  ingredient8?: string;
-  ingredient9?: string;
+  ingredient8!: string;
+  ingredient9!: string;
 
   isEditing: boolean = false;
   editButtonClicked: boolean = false;
@@ -94,7 +94,6 @@ export class CategoryMealsComponent implements OnInit {
     this.isEditing = true;
     this.editButtonClicked = true;
     this.editMealForm = new FormGroup({
-      id: new FormControl(meal.idMeal),
       strMeal: new FormControl(meal.strMeal),
       strIngredient1: new FormControl(meal.strIngredient1),
       strIngredient2: new FormControl(meal.strIngredient2),
@@ -109,9 +108,17 @@ export class CategoryMealsComponent implements OnInit {
   }
   save() {
     this.mealDetail.strMeal = this.editMealForm.value.strMeal;
+    this.mealDetail.strIngredient1 = this.editMealForm.value.strIngredient1;
+    this.mealDetail.strIngredient2 = this.editMealForm.value.strIngredient2;
+    this.mealDetail.strIngredient3 = this.editMealForm.value.strIngredient3;
+    this.mealDetail.strIngredient4 = this.editMealForm.value.strIngredient4;
+    this.mealDetail.strIngredient5 = this.editMealForm.value.strIngredient5;
+    this.mealDetail.strIngredient6 = this.editMealForm.value.strIngredient6;
+    this.mealDetail.strIngredient7 = this.editMealForm.value.strIngredient7;
+    this.mealDetail.strIngredient8 = this.editMealForm.value.strIngredient8;
+    this.mealDetail.strIngredient9 = this.editMealForm.value.strIngredient9;
     this.editButtonClicked = false;
     this.isEditing = false;
-    //  alert("meal changed");
   }
   cancel() {
     this.isEditing = false;

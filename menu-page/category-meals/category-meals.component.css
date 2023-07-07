@@ -98,8 +98,10 @@ label {
   color: aliceblue;
 }
 
-.labels-and-inputs-div {
+.label-and-input-div {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 40px;
 }

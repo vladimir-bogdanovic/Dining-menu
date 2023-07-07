@@ -1,4 +1,5 @@
 <div class="main-wraper">
+  <!-- SEARCH START -->
   <!-- GRID START -->
   <div class="grid-wraper">
     <div class="grid-choices">
@@ -89,12 +90,24 @@
         <!-- FORM START -->
         <form [formGroup]="editMealForm">
           <h2 class="meal-name">Edit selected recipe</h2>
-          <div class="labels-and-inputs-div">
-            <label class="" for="name">meal name</label>
+          <div class="label-and-input-div">
+            <label for="name">meal name: </label>
             <input type="text" formControlName="strMeal" />
           </div>
-          <div>
-            <button class="button" type="submit" (click)="save()">Save</button>
+          <div class="label-and-input-div">
+            <label for="text">add yout ingredients: </label>
+            <input type="text" formControlName="strIngredient1" />
+            <input type="text" formControlName="strIngredient2" />
+            <input type="text" formControlName="strIngredient3" />
+            <input type="text" formControlName="strIngredient4" />
+            <input type="text" formControlName="strIngredient5" />
+            <input type="text" formControlName="strIngredient6" />
+            <input type="text" formControlName="strIngredient7" />
+            <input type="text" formControlName="strIngredient8" />
+            <input type="text" formControlName="strIngredient9" />
+          </div>
+          <div class="label-and-input-div">
+            <button class="button" type="button" (click)="save()">Save</button>
             <button class="button" type="reset" (click)="cancel()">
               Cancel
             </button>
