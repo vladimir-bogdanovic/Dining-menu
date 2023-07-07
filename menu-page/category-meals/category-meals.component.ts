@@ -24,12 +24,16 @@ export class CategoryMealsComponent implements OnInit {
   param!: string;
   categoryMeals!: SingleCategoryMealInterface[];
   mealDetail!: SingleMealDetailsInterface;
+
   mealSelected = false;
   defaultPage = 1;
   numberOfMeals!: number;
   itemsPerPage = 10;
-  randomMeal!: SingleRandomMealInterface;
 
+  isSearching = false;
+  searchValue = "";
+
+  randomMeal!: SingleRandomMealInterface;
   randomMealName!: string;
   randomMealThumb!: string;
   randomMealCategory!: string;
@@ -52,16 +56,53 @@ export class CategoryMealsComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  searchForm = new FormGroup({
+    search: new FormControl(),
+  });
+
+  get getForm() {
+    return this.searchForm.get("search");
+  }
+
+  getParams() {
     this.route.params.subscribe((params: Params) => {
       this.param = params.food;
     });
+  }
+
+  searchValueChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchValue = value;
+    if (this.searchValue != "") {
+      this.isSearching = true;
+    } else if (this.searchValue.length < 1) {
+      this.isSearching = false;
+    }
+  }
+
+  ngOnInit(): void {
+    this.getParams();
     this.callingService
       .getCategoryMeals(this.param)
       .subscribe((resData: CategoryMealsInterface) => {
         this.categoryMeals = resData.meals;
         this.numberOfMeals = this.categoryMeals.length;
+        //////////////////////////////////////////////////
+        this.getForm.valueChanges.subscribe((input: string) => {
+          this.callingService
+            .getCategoryMeals(this.param)
+            .subscribe((resData: CategoryMealsInterface) => {
+              this.categoryMeals = resData.meals;
+              this.categoryMeals = this.categoryMeals.filter(
+                (resData: SingleCategoryMealInterface): boolean => {
+                  const inputValue = input.toLowerCase();
+                  return resData.strMeal.toLowerCase().includes(inputValue);
+                }
+              );
+            });
+        });
       });
+    /////////////////////////////////////////////
     this.callingService
       .getRandomMeal()
       .subscribe((resData: RandomMealInterface) => {
@@ -90,6 +131,7 @@ export class CategoryMealsComponent implements OnInit {
       });
   }
 
+  // EDITING MEAL START
   editMeal(meal: SingleMealDetailsInterface) {
     this.isEditing = true;
     this.editButtonClicked = true;
@@ -106,7 +148,7 @@ export class CategoryMealsComponent implements OnInit {
       strIngredient9: new FormControl(meal.strIngredient9),
     });
   }
-  save() {
+  saveMealChanges() {
     this.mealDetail.strMeal = this.editMealForm.value.strMeal;
     this.mealDetail.strIngredient1 = this.editMealForm.value.strIngredient1;
     this.mealDetail.strIngredient2 = this.editMealForm.value.strIngredient2;
@@ -120,7 +162,7 @@ export class CategoryMealsComponent implements OnInit {
     this.editButtonClicked = false;
     this.isEditing = false;
   }
-  cancel() {
+  cancelMealChanges() {
     this.isEditing = false;
     this.editButtonClicked = false;
   }

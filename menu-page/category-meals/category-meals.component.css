@@ -20,8 +20,7 @@ li {
   padding: 0px;
   color: aliceblue;
   width: 100%;
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 
 .random-meal-div {
@@ -36,6 +35,8 @@ li {
 .meal-id {
   margin-right: 20px;
   margin-left: 20px;
+  display: flex;
+  justify-content: start;
 }
 
 .meal-name {
@@ -104,4 +105,10 @@ label {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 40px;
+}
+
+.search-form-div {
+  /* justify-content: center; */
+  text-align: center;
+  padding: 10px;
 }
