@@ -1,19 +1,133 @@
 <div class="main-wraper">
+  <!-- GRID START -->
   <div class="grid-wraper">
+    <!-- SEARCH START -->
+    <form class="search-form-div" [formGroup]="searchForm">
+      <input
+        placeholder="Search food here"
+        type="text"
+        formControlName="search"
+        (keyup)="searchValueChange($event)"
+      />
+    </form>
+    <!-- SEARCH END -->
     <div class="grid-choices">
-      <ul *ngFor="let categoryMeal of categoryMeals; let i = index">
-        <li (click)="checkMealDetails(categoryMeal.idMeal)">
-          <div class="meal-id">{{ i + 1 + "." }}</div>
-          {{ categoryMeal.strMeal }}
+      <ul
+        *ngFor="
+          let categoryMeal of categoryMeals
+            | slice
+              : (defaultPage - 1) * itemsPerPage
+              : defaultPage * itemsPerPage
+        "
+      >
+        <li (click)="getMealDetails(categoryMeal.idMeal)">
+          <div class="meal-list-name">
+            <span> {{ categoryMeal.strMeal }}</span>
+          </div>
         </li>
+      </ul>
+      <!-- PAGINATION START -->
+      <div *ngIf="!isSearching" class="pag-div">
+        <ngb-pagination
+          [collectionSize]="numberOfMeals"
+          [(page)]="defaultPage"
+          [directionLinks]="false"
+        ></ngb-pagination>
+      </div>
+      <!-- PAGINATION END -->
+    </div>
+  </div>
+  <!-- GRID END -->
+
+  <!-- MEAL DETAILS START -->
+  <!-- RANDOM MEALSTART -->
+  <div *ngIf="!mealSelected" class="random-meal-div">
+    <div class="meal-name">
+      <span>{{ randomMealName }} - {{ randomMealCategory }}</span>
+    </div>
+    <div class="meal-image">
+      <img src="{{ randomMealThumb }}" alt="" />
+    </div>
+    <div class="meal-ingredients">
+      <ul>
+        <li>{{ ingredient1 }}</li>
+        <li>{{ ingredient2 }}</li>
+        <li>{{ ingredient3 }}</li>
+        <li>{{ ingredient4 }}</li>
+        <li>{{ ingredient5 }}</li>
+        <li>{{ ingredient6 }}</li>
+        <li>{{ ingredient7 }}</li>
+        <li>{{ ingredient8 }}</li>
+        <li>{{ ingredient9 }}</li>
       </ul>
     </div>
   </div>
-  <div class="meal-div">
-    <div class="meal-name">Roast chicken dinner for one</div>
-    <div class="meal-image">
-      <img src="../../../assets/roast_chicken_for_one_41998_16x9.jpg" alt="" />
+  <!-- RANDOM MEAL END -->
+  <!-- SELECTED MEAL START -->
+  <div *ngIf="mealSelected" class="random-meal-div">
+    <div class="meal-name">
+      <span>{{ mealDetail.strMeal }}</span>
     </div>
-    <div class="meal-ingredients">300g/10½oz potatoes</div>
+    <div class="meal-image">
+      <img src="{{ mealDetail.strMealThumb }}" alt="" />
+    </div>
+    <div class="meal-ingredients">
+      <ul>
+        <li>{{ mealDetail.strIngredient1 }}</li>
+        <li>{{ mealDetail.strIngredient2 }}</li>
+        <li>{{ mealDetail.strIngredient3 }}</li>
+        <li>{{ mealDetail.strIngredient4 }}</li>
+        <li>{{ mealDetail.strIngredient5 }}</li>
+        <li>{{ mealDetail.strIngredient6 }}</li>
+        <li>{{ mealDetail.strIngredient7 }}</li>
+        <li>{{ mealDetail.strIngredient8 }}</li>
+        <li>{{ mealDetail.strIngredient9 }}</li>
+      </ul>
+    </div>
+    <!-- EDIT MEAL START -->
+    <div class="edit-meal-div">
+      <div class="edit-button-div">
+        <button
+          *ngIf="!editButtonClicked"
+          class="button"
+          (click)="editMeal(mealDetail)"
+        >
+          edit
+        </button>
+      </div>
+      <div *ngIf="isEditing" class="edit-form-div">
+        <!-- FORM START -->
+        <form [formGroup]="editMealForm">
+          <h2 class="meal-name">Edit selected recipe</h2>
+          <div class="label-and-input-div">
+            <label for="name">meal name: </label>
+            <input type="text" formControlName="strMeal" />
+          </div>
+          <div class="label-and-input-div">
+            <label for="text">add yout ingredients: </label>
+            <input type="text" formControlName="strIngredient1" />
+            <input type="text" formControlName="strIngredient2" />
+            <input type="text" formControlName="strIngredient3" />
+            <input type="text" formControlName="strIngredient4" />
+            <input type="text" formControlName="strIngredient5" />
+            <input type="text" formControlName="strIngredient6" />
+            <input type="text" formControlName="strIngredient7" />
+            <input type="text" formControlName="strIngredient8" />
+            <input type="text" formControlName="strIngredient9" />
+          </div>
+          <div class="label-and-input-div">
+            <button class="button" type="button" (click)="saveMealChanges()">
+              Save
+            </button>
+            <button class="button" type="reset" (click)="cancelMealChanges()">
+              Cancel
+            </button>
+          </div>
+        </form>
+        <!-- FORM END -->
+      </div>
+    </div>
+    <!-- EDIT MEAL END -->
   </div>
+  <!-- SELECTED MEAL END -->
 </div>
